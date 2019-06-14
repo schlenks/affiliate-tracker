@@ -5,19 +5,29 @@ import { Affiliate } from "./affiliate";
 import { AffiliateRequest } from "./affiliate-request";
 import { validate, validationError } from "./validation";
 
-class App {
+export class App {
   public express: express.Application;
 
+  private port: number;
+
   constructor() {
+    this.port = this.normalizePort(process.env.PORT);
     this.express = express();
     this.middleware();
     this.routes();
+    this.errorHandlers();
+  }
+
+  public listen(): void {
+    this.express.listen(this.port, () => {
+      // tslint:disable-next-line: no-console
+      console.log(`Affiliate Tracker server started on port ${this.port}`);
+    });
   }
 
   private middleware(): void {
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
-    this.express.use(validationError);
   }
 
   private routes(): void {
@@ -30,13 +40,22 @@ class App {
     });
 
     router.post("/", validate(AffiliateRequest), (req, res) => {
-      const affiliate = new Affiliate(req);
-      affiliate.process();
-      res.json(affiliate.result());
+      // req.body is now an AffiliateRequest or we will error out
+      res.json(req.body);
     });
 
     this.express.use("/", router);
   }
-}
 
-export default new App().express;
+  private errorHandlers(): void {
+    this.express.use(validationError);
+  }
+
+  private normalizePort(val: number|string, defaultPort: number = 3000): number {
+    const portNumber: number = (typeof val === "string") ? parseInt(val, 10) : val;
+    if (!isNaN(portNumber) && portNumber >= 0) {
+      return portNumber;
+    }
+    return defaultPort;
+  }
+}

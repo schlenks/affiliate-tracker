@@ -11,7 +11,8 @@
     "prebuild": "tslint -c tslint.json -p tsconfig.json --fix",
     "build": "tsc",
     "start": "nodemon",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",
+    "test:watch": "mocha -r ts-node/register src/**/*.spec.ts --watch"
   },
   "keywords": [
     "affiliate"

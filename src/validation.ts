@@ -17,7 +17,7 @@ export function validate<T>(type: Constructor<T>): express.RequestHandler {
   const jsonConvert: JsonConvert = new JsonConvert();
 
   return (req, res, next) => {
-    jsonConvert.operationMode = OperationMode.LOGGING;
+    jsonConvert.operationMode = OperationMode.ENABLE;
     jsonConvert.ignorePrimitiveChecks = true;
     jsonConvert.valueCheckingMode = ValueCheckingMode.DISALLOW_NULL;
     const input = jsonConvert.deserialize(req.body, type);

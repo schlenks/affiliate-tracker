@@ -15,23 +15,23 @@ export class AffiliateRequest {
   @JsonProperty("purchaseId", String, false)
   @IsNotEmpty()
   @IsString()
-  public purchaseId: string;
+  public purchaseId: string = "";
 
   @JsonProperty("aid", Number, false)
   @IsNotEmpty()
   @IsInt()
   @Max(999999999999999)
-  public aid: number;
+  public aid: number = undefined;
 
   @JsonProperty("pid", Number, false)
   @IsNotEmpty()
   @IsInt()
   @Max(9999999999)
-  public pid: number;
+  public pid: number = undefined;
 
   @JsonProperty("sid", String, true)
   @IsOptional()
   @IsAlphanumeric()
   @MaxLength(64)
-  public sid: string|undefined;
+  public sid: string|undefined = undefined;
 }
