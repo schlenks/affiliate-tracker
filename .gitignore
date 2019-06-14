@@ -1,0 +1,12 @@
+node_modules
+dist
+.vscode
+.idea
+.DS_Store
+temp
+tmp
+.env
+npm-debug.log*
+*.env
+coverage.lcov
+coverage
