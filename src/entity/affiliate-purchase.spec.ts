@@ -3,13 +3,13 @@ import chai from "chai";
 import { JsonConvert } from "json2typescript";
 import "mocha";
 
-import { AffiliateRequest } from "./affiliate-request";
+import { AffiliatePurchase } from "./AffiliatePurchase";
 
 const expect = chai.expect;
 const jsonConvert: JsonConvert = new JsonConvert();
 
-describe("AffiliateRequest Deserialize", () => {
-  it("should convert json to AffiliateRequest object", () => {
+describe("AffiliatePurchase Deserialize", () => {
+  it("should convert json to AffiliatePurchase object", () => {
     const testJson: object = {
       aid: 12345,
       pid: 67890,
@@ -17,9 +17,9 @@ describe("AffiliateRequest Deserialize", () => {
       sid: "ABCD1234"
     };
 
-    let input: AffiliateRequest;
+    let input: AffiliatePurchase;
     try {
-      input = jsonConvert.deserializeObject(testJson, AffiliateRequest);
+      input = jsonConvert.deserializeObject(testJson, AffiliatePurchase);
     } catch (error) {
       fail(error);
     }
@@ -30,16 +30,16 @@ describe("AffiliateRequest Deserialize", () => {
     expect(input.sid).to.eql("ABCD1234");
   });
 
-  it("should convert json to AffiliateRequest object with optional properties missing", () => {
+  it("should convert json to AffiliatePurchase object with optional properties missing", () => {
     const testJson: object = {
       aid: 12345,
       pid: 67890,
       purchaseId: "TEST_12345"
     };
 
-    let input: AffiliateRequest;
+    let input: AffiliatePurchase;
     try {
-      input = jsonConvert.deserializeObject(testJson, AffiliateRequest);
+      input = jsonConvert.deserializeObject(testJson, AffiliatePurchase);
     } catch (error) {
       fail(error);
     }
@@ -50,14 +50,14 @@ describe("AffiliateRequest Deserialize", () => {
     expect(input.sid).to.eql(undefined);
   });
 
-  it("should not convert json to AffiliateRequest object with required properties missing", () => {
+  it("should not convert json to AffiliatePurchase object with required properties missing", () => {
     const testJson: object = {
       aid: 12345
     };
 
-    let input: AffiliateRequest;
+    let input: AffiliatePurchase;
     try {
-      input = jsonConvert.deserializeObject(testJson, AffiliateRequest);
+      input = jsonConvert.deserializeObject(testJson, AffiliatePurchase);
     } catch (error) {
       expect(error).to.not.eql(null);
     }

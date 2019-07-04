@@ -1,14 +1,16 @@
 import bodyParser from "body-parser";
 import express from "express";
+import "reflect-metadata";
+import { createConnection } from "typeorm";
 
-import { Affiliate } from "./affiliate";
-import { AffiliateRequest } from "./affiliate-request";
+import { AffiliatePurchase } from "./entity/AffiliatePurchase";
 import { validate, validationError } from "./validation";
 
 export class App {
   public express: express.Application;
 
   private port: number;
+  private connection: any;
 
   constructor() {
     this.port = this.normalizePort(process.env.PORT);
@@ -19,9 +21,12 @@ export class App {
   }
 
   public listen(): void {
-    this.express.listen(this.port, () => {
-      // tslint:disable-next-line: no-console
-      console.log(`Affiliate Tracker server started on port ${this.port}`);
+    createConnection().then(async (connection: any) => {
+      this.connection = connection;
+      this.express.listen(this.port, () => {
+        // tslint:disable-next-line: no-console
+        console.log(`Affiliate Tracker server started on port ${this.port}`);
+      });
     });
   }
 
@@ -39,9 +44,10 @@ export class App {
       });
     });
 
-    router.post("/", validate(AffiliateRequest), (req, res) => {
+    router.post("/", validate(AffiliatePurchase), async (req, res) => {
       // req.body is now an AffiliateRequest or we will error out
-      res.json(req.body);
+      const savedAffiliate = await this.connection.manager.save(req.body);
+      res.json({ message: "Affiliate Saved", affiliate: savedAffiliate });
     });
 
     this.express.use("/", router);
