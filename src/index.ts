@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import http from "http";
+import "reflect-metadata";
 
 import App from "./App";
 
